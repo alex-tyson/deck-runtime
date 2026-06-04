@@ -35,8 +35,6 @@
   
   if (window[MOUNT_FLAG]) return;
   window[MOUNT_FLAG] = true;
-     if (window.self !== window.top) return;
-
   
   /* Bail out inside iframes — Cargo's editor previews the site in an
      iframe, and we don't want the runtime hijacking the edit view. */
@@ -78,6 +76,26 @@
       'body.' + BODY_ACTIVE_CLASS + ' {' +
         'background: var(--deck-fade-bg, #000) !important;' +
         'overflow: hidden !important; margin: 0 !important;' +
+        '--deck-ui: #fff;' +
+        '--deck-ui-92: rgba(255,255,255,0.92);' +
+        '--deck-ui-70: rgba(255,255,255,0.7);' +
+        '--deck-ui-50: rgba(255,255,255,0.5);' +
+        '--deck-ui-40: rgba(255,255,255,0.4);' +
+        '--deck-ui-30: rgba(255,255,255,0.3);' +
+        '--deck-ui-15: rgba(255,255,255,0.15);' +
+        '--deck-ui-05: rgba(255,255,255,0.05);' +
+        '--deck-pw-overlay-bg: rgba(0, 0, 0, 0.85);' +
+      '}' +
+      'body.' + BODY_ACTIVE_CLASS + '.deck-theme-white {' +
+        '--deck-ui: #121212;' +
+        '--deck-ui-92: rgba(18,18,18,0.92);' +
+        '--deck-ui-70: rgba(18,18,18,0.7);' +
+        '--deck-ui-50: rgba(18,18,18,0.5);' +
+        '--deck-ui-40: rgba(18,18,18,0.4);' +
+        '--deck-ui-30: rgba(18,18,18,0.3);' +
+        '--deck-ui-15: rgba(18,18,18,0.15);' +
+        '--deck-ui-05: rgba(18,18,18,0.05);' +
+        '--deck-pw-overlay-bg: rgba(252, 247, 245, 0.9);' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .page.stacked-page {' +
         'position: absolute !important; inset: 0 !important;' +
@@ -97,7 +115,7 @@
         'background: transparent !important; border: 0 !important; box-shadow: none !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .page.stacked-page bodycopy {' +
-        'color: var(--deck-text-color, rgba(255, 255, 255, 0.92));' +
+        'color: var(--deck-text-color, var(--deck-ui-92));' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-bg-layer {' +
         'position: fixed !important; inset: 0 !important;' +
@@ -115,7 +133,7 @@
         'position: fixed !important;' +
         'z-index: 9999 !important;' +
         'font-family: \'Favorit Variable\', sans-serif !important;' +
-        'color: #fff !important;' +
+        'color: var(--deck-ui) !important;' +
         'margin: 0 !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-ui-picker { top: 20px !important; left: 20px !important; right: auto !important; bottom: auto !important; }' +
@@ -125,7 +143,7 @@
         'display: flex !important; align-items: center !important; gap: 16px !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-btn {' +
-        'background: transparent !important; border: none !important; color: #fff !important;' +
+        'background: transparent !important; border: none !important; color: var(--deck-ui) !important;' +
         'cursor: pointer !important; padding: 0 !important;' +
         'display: flex !important; align-items: center !important; gap: 6px !important;' +
         'font: inherit !important; font-size: 11px !important;' +
@@ -138,7 +156,7 @@
       'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-tooltip {' +
         'display: inline-flex !important; align-items: center !important; gap: 6px !important;' +
         'font-size: 9px !important; letter-spacing: 0.2em !important; text-transform: uppercase !important;' +
-        'color: rgba(255,255,255,0.4) !important; pointer-events: none !important;' +
+        'color: var(--deck-ui-40) !important; pointer-events: none !important;' +
         'transition: opacity 0.4s ease, visibility 0s linear 0s;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-tooltip.hidden {' +
@@ -157,24 +175,24 @@
       'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-list ul { list-style: none !important; padding: 16px 0 0 0 !important; margin: 0 !important; }' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-list li {' +
         'font-size: 11px !important; letter-spacing: 0.18em !important; text-transform: uppercase !important;' +
-        'color: rgba(255,255,255,0.4) !important; padding: 5px 0 !important; cursor: pointer !important;' +
+        'color: var(--deck-ui-40) !important; padding: 5px 0 !important; cursor: pointer !important;' +
         'transition: color 0.2s ease; display: flex !important; gap: 14px !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-list li:hover,' +
-      'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-list li.current { color: #fff !important; }' +
+      'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-list li.current { color: var(--deck-ui) !important; }' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-list li .num { opacity: 0.55 !important; }' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-picker-hint {' +
         'display: flex !important; align-items: center !important; gap: 7px !important;' +
         'margin-top: 14px !important; padding-top: 12px !important;' +
-        'border-top: 1px solid rgba(255,255,255,0.15) !important;' +
+        'border-top: 1px solid var(--deck-ui-15) !important;' +
         'font-size: 9px !important; letter-spacing: 0.2em !important;' +
-        'text-transform: uppercase !important; color: rgba(255,255,255,0.4) !important;' +
+        'text-transform: uppercase !important; color: var(--deck-ui-40) !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-kbd {' +
         'display: inline-flex !important; align-items: center !important; justify-content: center !important;' +
         'min-width: 16px !important; height: 16px !important; padding: 0 3px !important;' +
-        'border: 1px solid rgba(255,255,255,0.3) !important; border-radius: 3px !important;' +
-        'font-size: 10px !important; line-height: 1 !important; color: rgba(255,255,255,0.7) !important;' +
+        'border: 1px solid var(--deck-ui-30) !important; border-radius: 3px !important;' +
+        'font-size: 10px !important; line-height: 1 !important; color: var(--deck-ui-70) !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-radio {' +
         'display: flex !important; align-items: center !important; gap: 8px !important;' +
@@ -201,18 +219,18 @@
       'body.' + BODY_ACTIVE_CLASS + ' .deck-nav-next {' +
         'top: 50% !important; right: 24px !important; left: auto !important; bottom: auto !important;' +
         'width: 28px !important; height: 28px !important;' +
-        'color: rgba(255,255,255,0.5) !important; cursor: pointer !important;' +
+        'color: var(--deck-ui-50) !important; cursor: pointer !important;' +
         'transform: translateY(-50%);' +
         'transition: color 0.2s ease, transform 0.2s ease;' +
         'display: flex !important; align-items: center !important; justify-content: center !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-nav-next:hover {' +
-        'color: #fff !important; transform: translateY(-50%) translateX(3px);' +
+        'color: var(--deck-ui) !important; transform: translateY(-50%) translateX(3px);' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-overlay {' +
         'position: fixed !important; inset: 0 !important;' +
         'z-index: 99999 !important;' +
-        'background: rgba(0, 0, 0, 0.85) !important;' +
+        'background: var(--deck-pw-overlay-bg) !important;' +
         'display: flex !important; flex-direction: column !important;' +
         'align-items: center !important; justify-content: center !important;' +
         'gap: 36px !important;' +
@@ -221,7 +239,7 @@
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-overlay.fade-out { opacity: 0 !important; }' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-title {' +
-        'color: #fff !important; font-size: 22px !important;' +
+        'color: var(--deck-ui) !important; font-size: 22px !important;' +
         'letter-spacing: 0.3em !important; text-transform: uppercase !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-form {' +
@@ -229,30 +247,30 @@
         'align-items: center !important; gap: 14px !important; min-width: 280px !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-label {' +
-        'color: rgba(255,255,255,0.5) !important;' +
+        'color: var(--deck-ui-50) !important;' +
         'font-size: 10px !important; letter-spacing: 0.25em !important; text-transform: uppercase !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-input {' +
         'background: transparent !important; border: none !important;' +
-        'border-bottom: 1px solid rgba(255,255,255,0.3) !important;' +
-        'color: #fff !important; font: inherit !important; font-size: 14px !important;' +
+        'border-bottom: 1px solid var(--deck-ui-30) !important;' +
+        'color: var(--deck-ui) !important; font: inherit !important; font-size: 14px !important;' +
         'letter-spacing: 0.15em !important; padding: 10px 0 !important; width: 100% !important;' +
         'outline: none !important; text-align: center !important;' +
         'transition: border-color 0.2s ease;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-input:focus {' +
-        'border-bottom-color: rgba(255,255,255,0.7) !important;' +
+        'border-bottom-color: var(--deck-ui-70) !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-submit {' +
-        'background: transparent !important; border: 1px solid rgba(255,255,255,0.3) !important;' +
-        'color: #fff !important; font: inherit !important;' +
+        'background: transparent !important; border: 1px solid var(--deck-ui-30) !important;' +
+        'color: var(--deck-ui) !important; font: inherit !important;' +
         'font-size: 11px !important; letter-spacing: 0.25em !important; text-transform: uppercase !important;' +
         'padding: 12px 24px !important; cursor: pointer !important; margin-top: 12px !important;' +
         'transition: background 0.2s ease, border-color 0.2s ease;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-submit:hover {' +
-        'background: rgba(255,255,255,0.05) !important;' +
-        'border-color: rgba(255,255,255,0.7) !important;' +
+        'background: var(--deck-ui-05) !important;' +
+        'border-color: var(--deck-ui-70) !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .deck-pw-error {' +
         'color: #ff6a1a !important;' +
@@ -317,7 +335,10 @@
   /* Per-deck CSS variables.
        bg-opacity  — background video opacity (0–1)
        bg-color    — solid color shown beneath the deck and during slide
-                     fade gaps (any CSS color, e.g. #FCF7F5) */
+                     fade gaps (any CSS color, e.g. #FCF7F5)
+       theme       — "white" / "light" swaps UI from white-on-dark to
+                     #121212-on-light. Pairs naturally with a light
+                     bg-color value. */
   function applyConfigVars(config) {
     const op = config['bg-opacity'];
     if (op != null && op !== '') {
@@ -329,6 +350,10 @@
     const bgColor = config['bg-color'];
     if (bgColor && bgColor.trim()) {
       document.body.style.setProperty('--deck-fade-bg', bgColor.trim());
+    }
+    const theme = (config['theme'] || '').toLowerCase().trim();
+    if (theme === 'white' || theme === 'light') {
+      document.body.classList.add('deck-theme-white');
     }
   }
   
@@ -566,7 +591,7 @@
   
   const RADIO_SVG_HTML =
     '<svg class="deck-radio-icon" width="28" height="28" viewBox="0 0 22 22" aria-hidden="true">' +
-    '<g fill="none" stroke="#fff" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">' +
+    '<g fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">' +
     '<line x1="5.5" y1="21" x2="10.4" y2="9"/>' +
     '<line x1="16.5" y1="21" x2="11.6" y2="9"/>' +
     '<line x1="5.5" y1="21" x2="16.5" y2="21"/>' +
