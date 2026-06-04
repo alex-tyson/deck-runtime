@@ -35,6 +35,8 @@
   
   if (window[MOUNT_FLAG]) return;
   window[MOUNT_FLAG] = true;
+     if (window.self !== window.top) return;
+
   
   /* Bail out inside iframes — Cargo's editor previews the site in an
      iframe, and we don't want the runtime hijacking the edit view. */
