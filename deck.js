@@ -42,7 +42,7 @@
   
   const state = {
     schema: null, activeIndex: 0,
-    audio: null, audioUnlocked: false,
+    audio: null,
     picker: null, pickerLabel: null, pickerList: null, pickerTooltip: null,
     config: null
   };
@@ -96,6 +96,10 @@
         '--deck-ui-15: rgba(18,18,18,0.15);' +
         '--deck-ui-05: rgba(18,18,18,0.05);' +
         '--deck-pw-overlay-bg: rgba(252, 247, 245, 0.9);' +
+      '}' +
+      'body.' + BODY_ACTIVE_CLASS + '.deck-nav-hidden .deck-picker,' +
+      'body.' + BODY_ACTIVE_CLASS + '.deck-nav-hidden .deck-nav-next {' +
+        'display: none !important;' +
       '}' +
       'body.' + BODY_ACTIVE_CLASS + ' .page.stacked-page {' +
         'position: absolute !important; inset: 0 !important;' +
@@ -355,6 +359,10 @@
     if (theme === 'white' || theme === 'light') {
       document.body.classList.add('deck-theme-white');
     }
+    const hideNav = (config['hide-nav'] || '').toLowerCase().trim();
+    if (hideNav === 'true' || hideNav === 'yes' || hideNav === '1') {
+      document.body.classList.add('deck-nav-hidden');
+    }
   }
   
   /* ---------- SCHEMA ---------- */
@@ -560,7 +568,7 @@
     const url = safeAudioUrl(rawUrl);
     if (!url) { console.warn('[Deck] invalid audio-url:', rawUrl); return; }
     const audio = document.createElement('audio');
-    audio.loop = true; audio.preload = 'auto'; audio.muted = true;
+    audio.loop = true; audio.preload = 'auto';
     audio.volume = 0.6; audio.src = url;
     document.body.appendChild(audio);
     state.audio = audio;
@@ -573,18 +581,17 @@
     document.body.appendChild(radio);
     
     radio.addEventListener('click', function() {
-      if (!state.audioUnlocked) {
+      if (audio.paused) {
         audio.muted = false;
         audio.play().then(function() {
-          state.audioUnlocked = true;
           radio.classList.add('unlocked');
         }).catch(function(err) {
           console.warn('[Deck] audio blocked:', err);
-          audio.muted = true;
+          radio.classList.remove('unlocked');
         });
       } else {
-        audio.muted = !audio.muted;
-        radio.classList.toggle('unlocked', !audio.muted);
+        audio.pause();
+        radio.classList.remove('unlocked');
       }
     });
   }
