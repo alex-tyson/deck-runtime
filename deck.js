@@ -317,21 +317,18 @@
     return null;
   }
   
+  /* Parse a _config page's text content into key/value pairs.
+       Each config key must be on its own line: `key: value`.
+       Lines that don't start with a lowercase-letter-then-colon pattern
+       (e.g. Cargo-generated CSS rules like `[id="R1234"] { display: none; }`
+       or block comments) are ignored, so users can put CSS chrome-hiding
+       rules in the same _config page without breaking config parsing. */
   function parseConfigText(text) {
-    const keyPattern = /(?:^|\s)([a-z][a-z0-9-]+)\s*:\s*/g;
-    const matches = [];
-    let m;
-    while ((m = keyPattern.exec(text)) !== null) {
-      matches.push({
-        key: m[1].toLowerCase(),
-        matchStart: m.index,
-        valueStart: m.index + m[0].length
-      });
-    }
     const config = {};
-    for (let i = 0; i < matches.length; i++) {
-      const valueEnd = (i + 1 < matches.length) ? matches[i + 1].matchStart : text.length;
-      config[matches[i].key] = text.slice(matches[i].valueStart, valueEnd).trim();
+    const lines = text.split(/\r?\n/);
+    for (let i = 0; i < lines.length; i++) {
+      const m = lines[i].match(/^\s*([a-z][a-z0-9-]+)\s*:\s*(.*?)\s*$/);
+      if (m) config[m[1].toLowerCase()] = m[2];
     }
     return config;
   }
@@ -809,7 +806,7 @@
     }, true);
   }
   
-  /* ---------- MUTATION OBSERVATION ----------- */
+  /* ---------- MUTATION OBSERVATION ---------- */
   function observeChanges() {
     let timer = null;
     const observer = new MutationObserver(function() {
