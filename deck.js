@@ -809,7 +809,7 @@
     }, true);
   }
   
-  /* ---------- MUTATION OBSERVATION ---------- */
+  /* ---------- MUTATION OBSERVATION ----------- */
   function observeChanges() {
     let timer = null;
     const observer = new MutationObserver(function() {
